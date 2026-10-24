@@ -17,6 +17,10 @@ import { BulkUpdateTodoDto } from './dto/bulk-update-todo.dto';
 import { BulkDeleteTodoDto } from './dto/bulk-delete-todo.dto';
 import { ReorderTodosDto } from './dto/reorder-todos.dto';
 import { QueryTodoDto } from './dto/query-todo.dto';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import type { AuthUser } from '../auth/decorators/current-user.decorator';
+
+
 
 @Controller(['api/todos', 'todos'])
 export class TodosController {
@@ -49,9 +53,10 @@ export class TodosController {
   }
 
   @Post()
-  create(@Body() dto: CreateTodoDto) {
-    return this.todos.create(dto);
+  create(@Body() dto: CreateTodoDto, @CurrentUser() user?: AuthUser) {
+    return this.todos.create(dto, user?.id);
   }
+
 
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTodoDto) {
