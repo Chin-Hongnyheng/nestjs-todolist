@@ -50,7 +50,7 @@ export class TodosService implements OnModuleInit {
     return todo;
   }
 
-  async create(dto: CreateTodoDto) {
+  async create(dto: CreateTodoDto, userId?: number) {
     const normalizedDto = {
       ...dto,
       status: dto.status ? dto.status.toUpperCase() : 'TODO',
@@ -60,6 +60,7 @@ export class TodosService implements OnModuleInit {
     const todo = this.repo.create(normalizedDto);
     return this.repo.save(todo);
   }
+
 
   async update(id: number, dto: UpdateTodoDto) {
     const todo = await this.findOne(id);
